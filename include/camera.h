@@ -11,7 +11,7 @@ public:
 		_v3dEye = eye;
 		_v3dCenter = center;
 		_v3dUp = up;
-		_dCameraSpeed = 1;
+		_dCameraSpeed = 250;
 		_dMouseSensitivity =  0.2;
 	}
 
@@ -27,7 +27,7 @@ public:
 		_v3dUp.x = upX;
 		_v3dUp.y = upY;
 		_v3dUp.z = upZ;
-		_dCameraSpeed = 1;
+		_dCameraSpeed = 250;
 		_dMouseSensitivity =  0.2;
 	}
 

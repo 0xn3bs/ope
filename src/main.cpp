@@ -47,10 +47,13 @@ int main()
 
 	while(g_bIsRunning)
 	{
-		Update(0.00001f);
-		Draw(0.00001f);
+		double time = glfwGetTime();
+		g_dDeltaTime = time - g_dLastTime;
+		Update(g_dDeltaTime);
+		Draw(g_dDeltaTime);
 		glFlush();
 		glfwSwapBuffers();
+		g_dLastTime = time;
 	}
 
 	glfwTerminate();
@@ -102,9 +105,10 @@ void Initialize()
 }
 
 void Update(double dt)
-{
-	//	No timer implemented yet so delta time is constant for now :X
-	g_dDeltaTime = glfwGetTime() - g_dLastTime;
+{	
+	InputManager::Update(dt);
+	g_pCamera->Update(dt);
+
 	if(glfwGetKey(GLFW_KEY_TAB)==GLFW_PRESS)
 	{
 		InputManager::ToggleMouseStick();
@@ -113,10 +117,6 @@ void Update(double dt)
 
 	if(glfwGetKey(GLFW_KEY_ESC)==GLFW_PRESS)
 		Exit();
-
-	InputManager::Update(g_dLastTime);
-	g_pCamera->Update(g_dLastTime);
-	g_dLastTime = glfwGetTime();
 }
 
 void Draw(double dt)
