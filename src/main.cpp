@@ -79,7 +79,6 @@ void GLFWCALL WindowSizeEvent(int width, int height)
 	InputManager::SetMouseRefPos(width/2, height/2);
 }
 
-
 void Initialize()
 {
 	InputManager::Initialize();

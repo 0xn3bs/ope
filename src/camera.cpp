@@ -71,8 +71,8 @@ void Camera::Update(const float dt)
 		StrafeRight(dt);
 	}
 
-	_v3dChange.y += (InputManager::GetMouseDeltaX()*0.01f)*_dMouseSensitivity;
-	_v3dChange.x += (InputManager::GetMouseDeltaY()*0.01f)*_dMouseSensitivity;
+	_v3dChange.y += (InputManager::GetMouseDelta().x*0.01f)*_dMouseSensitivity;
+	_v3dChange.x += (InputManager::GetMouseDelta().y*0.01f)*_dMouseSensitivity;
 
 	if(_v3dChange.x > PI2)
 		_v3dChange.x = PI2;

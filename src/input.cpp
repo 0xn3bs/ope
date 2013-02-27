@@ -3,18 +3,12 @@
 
 InputManager g_inputManager;
 bool InputManager::_bKeys[512];
-int  InputManager::_iMouseX = 0;
-int  InputManager::_iMouseY = 0;
-int  InputManager::_iMouseClickStartX = 0;
-int  InputManager::_iMouseClickStartY = 0;
-int  InputManager::_iMouseClickEndX = 0;
-int  InputManager::_iMouseClickEndY = 0;
-int  InputManager::_iMouseReferenceX = 0;
-int  InputManager::_iMouseReferenceY = 0;
-int  InputManager::_iMouseLastPosX = 0;
-int  InputManager::_iMouseLastPosY = 0;
-int  InputManager::_iMouseDeltaX = 0;
-int  InputManager::_iMouseDeltaY = 0;
+Vec2<int> InputManager::_v2dMouse;
+Vec2<int> InputManager::_v2dMouseClickStart;
+Vec2<int> InputManager::_v2dMouseClickEnd;
+Vec2<int> InputManager::_v2dMouseReference;
+Vec2<int> InputManager::_v2dMouseLastPos;
+Vec2<int> InputManager::_v2dMouseDelta;
 
 bool InputManager::_bForceMouseToRefPos = false;
 bool InputManager::_bMouseHidden = false;
@@ -34,25 +28,22 @@ void InputManager::Update(double dt)
 {
 	int x, y;
 	GetMousePos(&x, &y);
+	Vec2<int> pos(x, y);	
 
 	//	We need to reset the mouse to the "center" reference
 	//	position to generate delta values for mouse movement.
 	if(_bForceMouseToRefPos && _bMouseHidden)
 	{
-		_iMouseDeltaX = _iMouseReferenceX - x;
-		_iMouseDeltaY = _iMouseReferenceY - y;
+		_v2dMouseDelta = _v2dMouseReference - pos;
 
-		SetMousePos(_iMouseReferenceX, _iMouseReferenceY);
+		SetMousePos(_v2dMouseReference.x, _v2dMouseReference.y);
 
-		_iMouseLastPosX = _iMouseX;
-		_iMouseLastPosY = _iMouseY;
+		_v2dMouseLastPos = _v2dMouse;
 	}
 	else
 	{
-		_iMouseDeltaX = _iMouseLastPosX - x;
-		_iMouseDeltaY = _iMouseLastPosY - y;
-		_iMouseLastPosX = x;
-		_iMouseLastPosY = y;
+		_v2dMouseDelta = _v2dMouseLastPos - pos;
+		_v2dMouseLastPos = pos;
 	}
 }
 
@@ -68,8 +59,8 @@ void InputManager::SetKeyEvent(int key, int action)
 
 void InputManager::SetMousePosEvent(int x, int y)
 {
-	_iMouseX = x;
-	_iMouseY = y;
+	_v2dMouse.x = x;
+	_v2dMouse.y = y;
 }
 
 void InputManager::SetMouseButtonEvent(int button, int action)
@@ -80,15 +71,13 @@ void InputManager::SetMouseButtonEvent(int button, int action)
 	if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
 	{
 		isMouseAlreadyDown = true;
-		_iMouseClickStartX = _iMouseX;
-		_iMouseClickStartY = _iMouseY;
+		_v2dMouseClickStart = _v2dMouse;
 	}
 
 	if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE && isMouseAlreadyDown)
 	{
 		isMouseAlreadyDown = true;
-		_iMouseClickStartX = _iMouseX;
-		_iMouseClickStartY = _iMouseY;
+		_v2dMouseClickEnd = _v2dMouse;
 		isClick = true;
 	}
 }
@@ -108,6 +97,11 @@ void InputManager::ToggleMouseHide()
 		glfwEnable(GLFW_MOUSE_CURSOR);
 }
 
+void InputManager::SetMousePos(const Vec2<int> pos)
+{
+	glfwSetMousePos(pos.x, pos.y);
+}
+
 void InputManager::SetMousePos(const int xPos, const int yPos)
 {
 	glfwSetMousePos(xPos, yPos);
@@ -120,14 +114,14 @@ void InputManager::GetMousePos(int *xPos, int *yPos)
 
 void InputManager::SetMouseRefPos(const int xPos, const int yPos)
 {
-	_iMouseReferenceX = xPos;
-	_iMouseReferenceY = yPos;
+	_v2dMouseReference.x = xPos;
+	_v2dMouseReference.y = yPos;
 }
 
 void InputManager::GetMouseRefPos(int *xPos, int *yPos)
 {
-	*xPos = _iMouseReferenceX;
-	*yPos = _iMouseReferenceY;
+	*xPos = _v2dMouseReference.x;
+	*yPos = _v2dMouseReference.y;
 }
 
 bool InputManager::GetKey(int key)
@@ -144,12 +138,7 @@ void InputManager::SetKey(int key, bool state)
 		_bKeys[key] = state;
 }
 
-int InputManager::GetMouseDeltaX()
+Vec2<int> InputManager::GetMouseDelta()
 {
-	return _iMouseDeltaX;
-}
-
-int InputManager::GetMouseDeltaY()
-{
-	return _iMouseDeltaY;
+	return _v2dMouseDelta;
 }

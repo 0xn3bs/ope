@@ -242,6 +242,21 @@ public:
 		return i == 0 ? x : y;
 	}
 
+	Vec2<int> ToInts()
+	{
+		return Vec2<int>(this->x, this->y);
+	}
+
+	Vec2<float> ToFloats()
+	{
+		return Vec2<float>(this->x, this->y);
+	}
+
+	Vec2<double> ToDoubles()
+	{
+		return Vec2<double>(this->x, this->y);
+	}
+
 	friend std::ostream &operator<<(std::ostream &stream, Vec2<T> rhs)
 	{
 		stream << "<" << rhs.x << ", " << rhs.y << ">";
@@ -401,6 +416,21 @@ public:
 		return i == 0 ? x : i == 1 ? y : z;
 	}
 
+	Vec3<int> ToInts()
+	{
+		return Vec2<int>(this->x, this->y, this->z);
+	}
+
+	Vec3<float> ToFloats()
+	{
+		return Vec2<float>(this->x, this->y, this->z);
+	}
+
+	Vec3<double> ToDoubles()
+	{
+		return Vec2<double>(this->x, this->y, this->z);
+	}
+
 	friend std::ostream &operator<<(std::ostream &stream, Vec3<T> rhs)
 	{
 		stream << "<" << rhs.x << ", " << rhs.y << ", " << rhs.z << ">";
@@ -539,6 +569,21 @@ public:
 			throw SUBCRIPT_OUT_OF_RANGE;
 		}
 		return i == 0 ? x : i == 1 ? y : i == 2 ? z : u;
+	}
+
+	Vec4<int> ToInts()
+	{
+		return Vec4<int>(this->x, this->y, this->z, this->u);
+	}
+
+	Vec4<float> ToFloats()
+	{
+		return Vec4<float>(this->x, this->y, this->z, this->u);
+	}
+
+	Vec4<double> ToDoubles()
+	{
+		return Vec4<double>(this->x, this->y, this->z, this->u);
 	}
 
 	friend std::ostream &operator<<(std::ostream &stream, Vec4<T> rhs)

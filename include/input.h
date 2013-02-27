@@ -2,7 +2,7 @@
 #define INPUT_H__
 
 #include <GL/glfw.h>
-#include "omath.h"
+#include "vector.h"
 
 class InputManager
 {
@@ -10,18 +10,12 @@ private:
 	//TODO: use Vec2 instead for mouse positions.
 
 	static bool _bKeys[512];
-	static int	_iMouseX;
-	static int	_iMouseY;
-	static int	_iMouseClickStartX;
-	static int	_iMouseClickStartY;
-	static int  _iMouseClickEndX;
-	static int  _iMouseClickEndY;
-	static int  _iMouseReferenceX;
-	static int  _iMouseReferenceY;
-	static int  _iMouseLastPosX;
-	static int  _iMouseLastPosY;
-	static int  _iMouseDeltaX;
-	static int  _iMouseDeltaY;
+	static Vec2<int> _v2dMouse;
+	static Vec2<int> _v2dMouseClickStart;
+	static Vec2<int> _v2dMouseClickEnd;
+	static Vec2<int> _v2dMouseReference;
+	static Vec2<int> _v2dMouseLastPos;
+	static Vec2<int> _v2dMouseDelta;
 
 	static bool _bForceMouseToRefPos;
 	static bool _bMouseHidden;
@@ -41,6 +35,7 @@ public:
 	static void ToggleMouseStick();
 	static void ToggleMouseHide();
 
+	static void SetMousePos(const Vec2<int> pos);
 	static void SetMousePos(const int xPos, const int yPos);
 	static void GetMousePos(int *xPos, int *yPos);
 
@@ -50,8 +45,7 @@ public:
 	static void SetKey (int key, bool state);
 	static bool GetKey(int key);
 
-	static int GetMouseDeltaX();
-	static int GetMouseDeltaY();
+	static Vec2<int> GetMouseDelta();
 };
 
 #endif /*INPUT_H__*/
